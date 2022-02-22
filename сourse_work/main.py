@@ -24,11 +24,11 @@ def work(regression_type: QuadraticIntervalRegression.RegressionType, datas: npt
 
 def data(case: int) -> tuple:
     if case == 0:
-        data = QuadraticGenerator().generate(150, 0, 25, [7, 5, -1 / 10])
+        data = QuadraticGenerator().generate(25, 5, 25, [10, 5, -1])
         em_data = data.add_emissions(5, 5, 1)
 
     elif case == 1:
-        data = QuadraticGenerator().generate(50, 0, 7, [-42, -17, 5])
+        data = QuadraticGenerator().generate(50, 0, 10, [-10, -20, 3])
         em_data = data.add_emissions(5, 5, 1)
 
     else:
