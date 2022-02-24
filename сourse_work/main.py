@@ -63,7 +63,7 @@ def main():
     cases = []#[0, 1]
 
     work_extended_gap(35, 0, 30, [10, 5, -1])
-    work_extended_gap(60, -5, 15, [-10, -20, 3])
+    work_extended_gap(60, 0, 20, [-10, -20, 3])
 
     for case in cases:
         print(f'Case: {case}')
