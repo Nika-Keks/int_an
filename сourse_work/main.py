@@ -1,4 +1,4 @@
-from generator import QuadraticGenerator
+from generator import Generator, QuadraticGenerator
 from interval_data import IntervalData
 from interval_regression import QuadraticIntervalRegression
 
@@ -38,16 +38,40 @@ def data(case: int) -> tuple:
 
     return idata, idata.add_emissions(5, 5, 1)
 
+def work_extended_gap(*args):
+    extended_data = QuadraticGenerator().generate(*args)
+    data = IntervalData(Generator.DataInfo(extended_data.factors()[5:25], extended_data.responses()[5:25]))
+    extended_data = IntervalData(extended_data)
+
+    extended_data.plot()
+
+    for regression_pyte in [QuadraticIntervalRegression.RegressionType.UndifinedCenter, QuadraticIntervalRegression.RegressionType.Tol]:
+        regression = QuadraticIntervalRegression.create(regression_pyte, data)
+
+        regression.plot("Gap")
+        params = regression.build_model()
+        print(f'params = {params}')
+
+        regression.data = extended_data
+
+        name = "ExtendedGap"
+        regression.plot(name)
+        regression.additional_plot(name)
+
 
 def main():
-    cases = [0, 1]
+    cases = []#[0, 1]
+
+    work_extended_gap(35, 0, 30, [10, 5, -1])
+    work_extended_gap(60, -5, 15, [-10, -20, 3])
 
     for case in cases:
         print(f'Case: {case}')
         idata, em_idata = data(case)
 
-        work(QuadraticIntervalRegression.RegressionType.UndifinedCenter, np.array([idata, em_idata]), np.array(['ValidData', 'DataWithEstims']))
-        work(QuadraticIntervalRegression.RegressionType.Tol, np.array([idata, em_idata]), np.array(['ValidData', 'DataWithEstims']))
+        work(QuadraticIntervalRegression.RegressionType.UndifinedCenter, np.array([idata, em_idata]), np.array(['ValidDataMS', 'DataWithEstimsMS']))
+        work(QuadraticIntervalRegression.RegressionType.Tol, np.array([idata, em_idata]), np.array(['ValidDataMS', 'DataWithEstimsMS']))
+
 
     return
 
